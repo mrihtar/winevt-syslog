@@ -1,0 +1,58 @@
+{
+  "RT_GROUP_ICON": {
+    "APP": {
+      "0000": [ "icon256.png", "icon128.png", "icon64.png", "icon48.png", "icon32.png", "icon16.png" ]
+    }
+  },
+  "RT_MANIFEST": {
+    "#1": {
+      "0409": {
+        "identity": {
+          "name": "",
+          "version": ""
+        },
+        "description": "",
+        "minimum-os": "win7",
+        "execution-level": "as invoker",
+        "ui-access": false,
+        "auto-elevate": false,
+        "dpi-awareness": "system",
+        "disable-theming": false,
+        "disable-window-filtering": false,
+        "high-resolution-scrolling-aware": false,
+        "ultra-high-resolution-scrolling-aware": false,
+        "long-path-aware": false,
+        "printer-driver-isolation": false,
+        "gdi-scaling": false,
+        "segment-heap": false,
+        "use-common-controls-v6": false
+      }
+    }
+  },
+  "RT_VERSION": {
+    "#1": {
+      "0000": {
+        "fixed": {
+          "file_version": "1.2.1.0",
+          "product_version": "1.2.1.0"
+        },
+        "info": {
+          "0409": {
+            "Comments": "",
+            "CompanyName": "ACME Corp.",
+            "FileDescription": "Forward Windows events to syslog",
+            "FileVersion": "1.2.1",
+            "InternalName": "winevt-syslog",
+            "LegalCopyright": "Copyright © 2022 Matjaz Rihtar",
+            "LegalTrademarks": "",
+            "OriginalFilename": "winevt-syslog.exe",
+            "PrivateBuild": "",
+            "ProductName": "winevt-syslog",
+            "ProductVersion": "1.2.1",
+            "SpecialBuild": ""
+          }
+        }
+      }
+    }
+  }
+}
