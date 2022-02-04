@@ -80,7 +80,7 @@ func main() {
   optHost := flag.String("host", "127.0.0.1", "Syslog host name")
   optPort := flag.String("port", "514", "Syslog host port")
   optHeader := flag.String("header", "rfc3164", "Syslog header [rfc1364, rfc5424, unix, default]")
-  optFormat := flag.String("format", "cef", "Syslog format [cef, leef]")
+  optFormat := flag.String("format", "leef", "Syslog format [cef, leef]")
   flag.Parse()
 
   // check specified flags for invalid values
@@ -142,11 +142,13 @@ func main() {
   // 4776  DC  The computer attempted to validate the credentials for an account.
   // 4778  CL  A session was reconnected to a Window Station.
   // 4779  CL  A session was disconnected from a Window Station.
+  // 4800  CL  The workstation was locked.
+  // 4801  CL  The workstation was unlocked.
 
   out.Println("Subscribing to windows events")
   eventSubscription := &EventSubscription{
     channel:    "Security",
-    query:      "*[System[EventID=4624] or System[EventID=4625] or System[EventID=4634] or System[EventID=4647] or System[EventID=4648] or System[EventID=4672] or System[EventID=4768] or System[EventID=4769] or System[EventID=4770] or System[EventID=4771] or System[EventID=4776] or System[EventID=4778] or System[EventID=4779]]",
+    query:      "*[System[EventID=4624] or System[EventID=4625] or System[EventID=4634] or System[EventID=4647] or System[EventID=4648] or System[EventID=4672] or System[EventID=4768] or System[EventID=4769] or System[EventID=4770] or System[EventID=4771] or System[EventID=4776] or System[EventID=4778] or System[EventID=4779] or System[EventID=4800] or System[EventID=4801]]",
     subsMethod: evtSubscribeToFutureEvents,
     errors:     errorsChan,
     callback:   EventCallback,
@@ -268,6 +270,18 @@ func EventCallback(event *Event) {
       sev = 2
       msg = Event4779(event)
 
+    case "4800": // CL The workstation was locked.
+      eventClassID = "CL Logon"
+      eventName = "Workstation was locked"
+      sev = 2
+      msg = Event4800(event)
+
+    case "4801": // CL The workstation was unlocked.
+      eventClassID = "CL Logon"
+      eventName = "Workstation was unlocked"
+      sev = 2
+      msg = Event4801(event)
+
     default:
       eventClassID = "Unknown"
       eventName = "Unknown event"
@@ -279,7 +293,7 @@ func EventCallback(event *Event) {
   if form == formCEF {
     hdr = fmt.Sprintf("CEF:0|Microsoft|Events|1.0|%v|%v|%v|", eventClassID, eventName, sev)
   } else { // formLEEF
-    hdr = fmt.Sprintf("LEEF:1.0|Microsoft|Events|1.0|%v|", eventClassID)
+    hdr = fmt.Sprintf("LEEF:1.0|Microsoft|Events|1.0|%v|cat=%v\tsev=%v\t", eventName, eventClassID, sev)
   }
 
   out.Println(hdr + msg)

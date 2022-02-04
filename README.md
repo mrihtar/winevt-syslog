@@ -12,19 +12,21 @@ to Windows events and hibernates. When the subscribed event arrives, it wakes up
 process received event in a callback and sends it to syslog server.
 
 Currently, the following logon related events are intercepted:
-- 4624  (client)  An account was successfully logged on.
-- 4625  (client)  An account failed to log on.
-- 4634  (client)  An account was logged off.
-- 4647  (client)  User initiated logoff.
-- 4648  (client)  A logon was attempted using explicit credentials.
-- 4672  (client)  Special privileges assigned to new logon.
+- 4624  (Client)  An account was successfully logged on.
+- 4625  (Client)  An account failed to log on.
+- 4634  (Client)  An account was logged off.
+- 4647  (Client)  User initiated logoff.
+- 4648  (Client)  A logon was attempted using explicit credentials.
+- 4672  (Client)  Special privileges assigned to new logon.
 - 4768  (DC)      A Kerberos authentication ticket (TGT) was requested.
 - 4769  (DC)      A Kerberos service ticket was requested.
 - 4770  (DC)      A Kerberos service ticket was renewed.
 - 4771  (DC)      Kerberos pre-authentication failed.
 - 4776  (DC)      The computer attempted to validate the credentials for an account.
-- 4778  (client)  A session was reconnected to a Window Station.
-- 4779  (client)  A session was disconnected from a Window Station.
+- 4778  (Client)  A session was reconnected to a Window Station.
+- 4779  (Client)  A session was disconnected from a Window Station.
+- 4800  (Client)  The workstation was locked.
+- 4801  (Client)  The workstation was unlocked.
 
 To change this list, you have to change the query string in the program and
 recompile it.
@@ -52,25 +54,25 @@ Possible command line options for both are:
 <pre>
 $ winevt-syslog.exe
 Usage of winevt-syslog.exe:
-  -format string
-        Syslog format [cef, leef] (default "cef")
-  -header string
-        Syslog header [rfc1364, rfc5424, unix, default] (default "rfc3164")
   -host string
         Syslog host name (default "127.0.0.1")
-  -port string
-        Syslog host port (default "514")
   -proto string
         Syslog protocol [udp, tcp] (default "udp")
+  -port string
+        Syslog host port (default "514")
+  -header string
+        Syslog header [rfc1364, rfc5424, unix, default] (default "rfc3164")
+  -format string
+        Syslog format [leef, cef] (default "leef")
 </pre>
 
 ### Running from command line
 
 <pre>
 $ winevt-syslog.exe
-2022/01/31 14:06:51.360360 Starting winevt-syslog v1.2.1
-2022/01/31 14:06:51.360360 Connecting to syslog udp://127.0.0.1:514
-2022/01/31 14:06:51.361900 Subscribing to windows events
+2022/02/03 14:06:51.360360 Starting winevt-syslog v1.2.2
+2022/02/03 14:06:51.360360 Connecting to syslog udp://127.0.0.1:514
+2022/02/03 14:06:51.361900 Subscribing to windows events
 </pre>
 
 ### Running as a service
@@ -105,7 +107,7 @@ Syslog header can be in one of the following formats:
 
 - **RFC1364**  
   **`<prio>timestamp hostname tag[pid]: message`**<br>
-  Timestamp looks like this: Mon dd HH:MM:SS<br>
+  Timestamp looks like this: Mmm dd HH:MM:SS<br>
   Example:<br>
   `<38>Jan 31 14:41:09 chihuahua winevt-syslog[17356]: CEF:0|...`
 
@@ -148,6 +150,7 @@ Syslog message can be in one of the following formats:
 
 - [Microsoft Event Schema (Microsoft)]
 - [Windows 10 and Windows Server 2016 Security Auditing and Monitoring Reference (Microsoft)]
+- [Windows 7 and Windows Server 2008 R2 Security Event Descriptions (Microsoft)]
 - [Windows Event Log Analysis (Forward Defense)]
 - [Common Event Format (CEF) Rev. 16 (ArcSight)]
 - [Log Event Extended Format (LEEF) (IBM QRadar)]
@@ -156,8 +159,9 @@ Syslog message can be in one of the following formats:
 [RackSec's Srslog]: https://github.com/RackSec/srslog
 [RFC3339]: https://datatracker.ietf.org/doc/html/rfc3339
 [Windows Service Wrapper]: https://github.com/winsw/winsw
-[Common Event Format (CEF) Rev. 16 (ArcSight)]: https://kc.mcafee.com/resources/sites/MCAFEE/content/live/CORP_KNOWLEDGEBASE/78000/KB78712/en_US/CEF_White_Paper_20100722.pdf
 [Microsoft Event Schema (Microsoft)]: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-even6/8c61aef7-bd4b-4edb-8dfd-3c9a7537886b
-[Windows Event Log Analysis (Forward Defense)]: https://forwarddefense.com/media/attachments/2021/05/15/windows-event-log-analyst-reference.pdf
-[Log Event Extended Format (LEEF) (IBM QRadar)]: https://www.ibm.com/support/knowledgecenter/en/SS42VS_DSM/com.ibm.dsm.doc/b_Leef_format_guide.pdf?origURL=SS42VS_DSM/b_Leef_format_guide.pdf
 [Windows 10 and Windows Server 2016 Security Auditing and Monitoring Reference (Microsoft)]: https://download.microsoft.com/download/7/9/F/79F3E0B9-4A00-4D15-9953-045BC9BE9338/Windows%2010%20and%20Windows%20Server%202016%20Security%20Auditing%20and%20Monitoring%20Reference.docx
+[Windows 7 and Windows Server 2008 R2 Security Event Descriptions (Microsoft)]: https://www.microsoft.com/en-us/download/confirmation.aspx?id=21561
+[Windows Event Log Analysis (Forward Defense)]: https://forwarddefense.com/media/attachments/2021/05/15/windows-event-log-analyst-reference.pdf
+[Common Event Format (CEF) Rev. 16 (ArcSight)]: https://kc.mcafee.com/resources/sites/MCAFEE/content/live/CORP_KNOWLEDGEBASE/78000/KB78712/en_US/CEF_White_Paper_20100722.pdf
+[Log Event Extended Format (LEEF) (IBM QRadar)]: https://www.ibm.com/support/knowledgecenter/en/SS42VS_DSM/com.ibm.dsm.doc/b_Leef_format_guide.pdf?origURL=SS42VS_DSM/b_Leef_format_guide.pdf

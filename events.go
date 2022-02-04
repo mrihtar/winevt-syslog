@@ -169,16 +169,19 @@ func ConvertMicrosoftAuthStatus(status string) string {
 // Event 4624  CL  An account was successfully logged on.
 //
 func Event4624(event *Event) string {
-  subjectUserSid := event.FindEventData("SubjectUserSid")
-  subjectUserName := event.FindEventData("SubjectUserName")
-  subjectDomainName := event.FindEventData("SubjectDomainName")
   targetUserSid := event.FindEventData("TargetUserSid")
   targetUserName := event.FindEventData("TargetUserName")
   targetDomainName := event.FindEventData("TargetDomainName")
+  targetLogonId := event.FindEventData("TargetLogonId")
+  subjectUserSid := event.FindEventData("SubjectUserSid")
+  subjectUserName := event.FindEventData("SubjectUserName")
+  subjectDomainName := event.FindEventData("SubjectDomainName")
+  subjectLogonId := event.FindEventData("SubjectLogonId")
   logonType := event.FindEventData("LogonType")
   logonProcessName := event.FindEventData("LogonProcessName")
   authenticationPackageName := event.FindEventData("AuthenticationPackageName")
   workstationName := event.FindEventData("WorkstationName")
+  logonGuid := event.FindEventData("LogonGuid")
   processName := event.FindEventData("ProcessName")
   ipAddress := event.FindEventData("IpAddress")
   ipPort := event.FindEventData("IpPort")
@@ -186,16 +189,19 @@ func Event4624(event *Event) string {
   logonType = ConvertLogonType(logonType)
 
   msg := fmt.Sprintf("Event=%v", event.System.EventID)
-  msg = msg + fmt.Sprintf("\tSubjectUserSid=%v", subjectUserSid)
-  msg = msg + fmt.Sprintf("\tSubjectUserName=%v", subjectUserName)
-  msg = msg + fmt.Sprintf("\tSubjectDomainName=%v", subjectDomainName)
   msg = msg + fmt.Sprintf("\tTargetUserSid=%v", targetUserSid)
   msg = msg + fmt.Sprintf("\tTargetUserName=%v", targetUserName)
   msg = msg + fmt.Sprintf("\tTargetDomainName=%v", targetDomainName)
+  msg = msg + fmt.Sprintf("\tTargetLogonId=%v", targetLogonId)
+  msg = msg + fmt.Sprintf("\tSubjectUserSid=%v", subjectUserSid)
+  msg = msg + fmt.Sprintf("\tSubjectUserName=%v", subjectUserName)
+  msg = msg + fmt.Sprintf("\tSubjectDomainName=%v", subjectDomainName)
+  msg = msg + fmt.Sprintf("\tSubjectLogonId=%v", subjectLogonId)
   msg = msg + fmt.Sprintf("\tLogonType=%v", logonType)
   msg = msg + fmt.Sprintf("\tLogonProcessName=%v", logonProcessName)
   msg = msg + fmt.Sprintf("\tAuthenticationPackageName=%v", authenticationPackageName)
   msg = msg + fmt.Sprintf("\tWorkstationName=%v", workstationName)
+  msg = msg + fmt.Sprintf("\tLogonGuid=%v", logonGuid)
   msg = msg + fmt.Sprintf("\tProcessName=%v", processName)
   msg = msg + fmt.Sprintf("\tIpAddress=%v", ipAddress)
   msg = msg + fmt.Sprintf("\tIpPort=%v", ipPort)
@@ -207,12 +213,13 @@ func Event4624(event *Event) string {
 // Event 4625  CL  An account failed to log on.
 //
 func Event4625(event *Event) string {
-  subjectUserSid := event.FindEventData("SubjectUserSid")
-  subjectUserName := event.FindEventData("SubjectUserName")
-  subjectDomainName := event.FindEventData("SubjectDomainName")
   targetUserSid := event.FindEventData("TargetUserSid")
   targetUserName := event.FindEventData("TargetUserName")
   targetDomainName := event.FindEventData("TargetDomainName")
+  subjectUserSid := event.FindEventData("SubjectUserSid")
+  subjectUserName := event.FindEventData("SubjectUserName")
+  subjectDomainName := event.FindEventData("SubjectDomainName")
+  subjectLogonId := event.FindEventData("SubjectLogonId")
   failureReason := event.FindEventData("FailureReason")
   status := event.FindEventData("Status")
   subStatus := event.FindEventData("SubStatus")
@@ -227,12 +234,13 @@ func Event4625(event *Event) string {
   logonType = ConvertLogonType(logonType)
 
   msg := fmt.Sprintf("Event=%v", event.System.EventID)
-  msg = msg + fmt.Sprintf("\tSubjectUserSid=%v", subjectUserSid)
-  msg = msg + fmt.Sprintf("\tSubjectUserName=%v", subjectUserName)
-  msg = msg + fmt.Sprintf("\tSubjectDomainName=%v", subjectDomainName)
   msg = msg + fmt.Sprintf("\tTargetUserSid=%v", targetUserSid)
   msg = msg + fmt.Sprintf("\tTargetUserName=%v", targetUserName)
   msg = msg + fmt.Sprintf("\tTargetDomainName=%v", targetDomainName)
+  msg = msg + fmt.Sprintf("\tSubjectUserSid=%v", subjectUserSid)
+  msg = msg + fmt.Sprintf("\tSubjectUserName=%v", subjectUserName)
+  msg = msg + fmt.Sprintf("\tSubjectDomainName=%v", subjectDomainName)
+  msg = msg + fmt.Sprintf("\tSubjectLogonId=%v", subjectLogonId)
   msg = msg + fmt.Sprintf("\tFailureReason=%v", failureReason)
   msg = msg + fmt.Sprintf("\tStatus=%v", status)
   msg = msg + fmt.Sprintf("\tSubStatus=%v", subStatus)
@@ -254,6 +262,7 @@ func Event4634(event *Event) string {
   targetUserSid := event.FindEventData("TargetUserSid")
   targetUserName := event.FindEventData("TargetUserName")
   targetDomainName := event.FindEventData("TargetDomainName")
+  targetLogonId := event.FindEventData("TargetLogonId")
   logonType := event.FindEventData("LogonType")
 
   logonType = ConvertLogonType(logonType)
@@ -262,6 +271,7 @@ func Event4634(event *Event) string {
   msg = msg + fmt.Sprintf("\tTargetUserSid=%v", targetUserSid)
   msg = msg + fmt.Sprintf("\tTargetUserName=%v", targetUserName)
   msg = msg + fmt.Sprintf("\tTargetDomainName=%v", targetDomainName)
+  msg = msg + fmt.Sprintf("\tTargetLogonId=%v", targetLogonId)
   msg = msg + fmt.Sprintf("\tLogonType=%v", logonType)
 
   return msg
@@ -274,11 +284,13 @@ func Event4647(event *Event) string {
   targetUserSid := event.FindEventData("TargetUserSid")
   targetUserName := event.FindEventData("TargetUserName")
   targetDomainName := event.FindEventData("TargetDomainName")
+  targetLogonId := event.FindEventData("TargetLogonId")
 
   msg := fmt.Sprintf("Event=%v", event.System.EventID)
   msg = msg + fmt.Sprintf("\tTargetUserSid=%v", targetUserSid)
   msg = msg + fmt.Sprintf("\tTargetUserName=%v", targetUserName)
   msg = msg + fmt.Sprintf("\tTargetDomainName=%v", targetDomainName)
+  msg = msg + fmt.Sprintf("\tTargetLogonId=%v", targetLogonId)
 
   return msg
 } // func Event4647
@@ -287,25 +299,29 @@ func Event4647(event *Event) string {
 // Event 4648  CL  A logon was attempted using explicit credentials.
 //
 func Event4648(event *Event) string {
-  subjectUserSid := event.FindEventData("SubjectUserSid")
-  subjectUserName := event.FindEventData("SubjectUserName")
-  subjectDomainName := event.FindEventData("SubjectDomainName")
   targetUserName := event.FindEventData("TargetUserName")
   targetDomainName := event.FindEventData("TargetDomainName")
   targetServerName := event.FindEventData("TargetServerName")
   targetInfo := event.FindEventData("TargetInfo")
+  subjectUserSid := event.FindEventData("SubjectUserSid")
+  subjectUserName := event.FindEventData("SubjectUserName")
+  subjectDomainName := event.FindEventData("SubjectDomainName")
+  subjectLogonId := event.FindEventData("SubjectLogonId")
+  logonGuid := event.FindEventData("LogonGuid")
   processName := event.FindEventData("ProcessName")
   ipAddress := event.FindEventData("IpAddress")
   ipPort := event.FindEventData("IpPort")
 
   msg := fmt.Sprintf("Event=%v", event.System.EventID)
-  msg = msg + fmt.Sprintf("\tSubjectUserSid=%v", subjectUserSid)
-  msg = msg + fmt.Sprintf("\tSubjectUserName=%v", subjectUserName)
-  msg = msg + fmt.Sprintf("\tSubjectDomainName=%v", subjectDomainName)
   msg = msg + fmt.Sprintf("\tTargetUserName=%v", targetUserName)
   msg = msg + fmt.Sprintf("\tTargetDomainName=%v", targetDomainName)
   msg = msg + fmt.Sprintf("\tTargetServerName=%v", targetServerName)
   msg = msg + fmt.Sprintf("\tTargetInfo=%v", targetInfo)
+  msg = msg + fmt.Sprintf("\tSubjectUserSid=%v", subjectUserSid)
+  msg = msg + fmt.Sprintf("\tSubjectUserName=%v", subjectUserName)
+  msg = msg + fmt.Sprintf("\tSubjectDomainName=%v", subjectDomainName)
+  msg = msg + fmt.Sprintf("\tSubjectLogonId=%v", subjectLogonId)
+  msg = msg + fmt.Sprintf("\tLogonGuid=%v", logonGuid)
   msg = msg + fmt.Sprintf("\tProcessName=%v", processName)
   msg = msg + fmt.Sprintf("\tIpAddress=%v", ipAddress)
   msg = msg + fmt.Sprintf("\tIpPort=%v", ipPort)
@@ -320,6 +336,7 @@ func Event4672(event *Event) string {
   subjectUserSid := event.FindEventData("SubjectUserSid")
   subjectUserName := event.FindEventData("SubjectUserName")
   subjectDomainName := event.FindEventData("SubjectDomainName")
+  subjectLogonId := event.FindEventData("SubjectLogonId")
   privilegeList := event.FindEventData("PrivilegeList")
   privilegeList = strings.ReplaceAll(privilegeList, "\n", ",")
   privilegeList = strings.ReplaceAll(privilegeList, " ", "")
@@ -329,6 +346,7 @@ func Event4672(event *Event) string {
   msg = msg + fmt.Sprintf("\tSubjectUserSid=%v", subjectUserSid)
   msg = msg + fmt.Sprintf("\tSubjectUserName=%v", subjectUserName)
   msg = msg + fmt.Sprintf("\tSubjectDomainName=%v", subjectDomainName)
+  msg = msg + fmt.Sprintf("\tSubjectLogonId=%v", subjectLogonId)
   msg = msg + fmt.Sprintf("\tPrivilegeList=%v", privilegeList)
 
   return msg
@@ -387,6 +405,7 @@ func Event4769(event *Event) string {
   ipAddress := event.FindEventData("IpAddress")
   ipPort := event.FindEventData("IpPort")
   status := event.FindEventData("Status")
+  logonGuid := event.FindEventData("LogonGuid")
   transmittedServices := event.FindEventData("TransmittedServices")
 
   status = ConvertKerberosStatus(status)
@@ -402,6 +421,7 @@ func Event4769(event *Event) string {
   msg = msg + fmt.Sprintf("\tIpAddress=%v", ipAddress)
   msg = msg + fmt.Sprintf("\tIpPort=%v", ipPort)
   msg = msg + fmt.Sprintf("\tStatus=%v", status)
+  msg = msg + fmt.Sprintf("\tLogonGuid=%v", logonGuid)
   msg = msg + fmt.Sprintf("\tTransmittedServices=%v", transmittedServices)
 
   return msg
@@ -494,6 +514,7 @@ func Event4776(event *Event) string {
 func Event4778(event *Event) string {
   accountName := event.FindEventData("AccountName")
   accountDomain := event.FindEventData("AccountDomain")
+  logonID := event.FindEventData("LogonID")
   sessionName := event.FindEventData("SessionName")
   clientName := event.FindEventData("ClientName")
   clientAddress := event.FindEventData("ClientAddress")
@@ -501,6 +522,7 @@ func Event4778(event *Event) string {
   msg := fmt.Sprintf("Event=%v", event.System.EventID)
   msg = msg + fmt.Sprintf("\tAccountName=%v", accountName)
   msg = msg + fmt.Sprintf("\tAccountDomain=%v", accountDomain)
+  msg = msg + fmt.Sprintf("\tLogonID=%v", logonID)
   msg = msg + fmt.Sprintf("\tSessionName=%v", sessionName)
   msg = msg + fmt.Sprintf("\tClientName=%v", clientName)
   msg = msg + fmt.Sprintf("\tClientAddress=%v", clientAddress)
@@ -514,6 +536,7 @@ func Event4778(event *Event) string {
 func Event4779(event *Event) string {
   accountName := event.FindEventData("AccountName")
   accountDomain := event.FindEventData("AccountDomain")
+  logonID := event.FindEventData("LogonID")
   sessionName := event.FindEventData("SessionName")
   clientName := event.FindEventData("ClientName")
   clientAddress := event.FindEventData("ClientAddress")
@@ -521,9 +544,50 @@ func Event4779(event *Event) string {
   msg := fmt.Sprintf("Event=%v", event.System.EventID)
   msg = msg + fmt.Sprintf("\tAccountName=%v", accountName)
   msg = msg + fmt.Sprintf("\tAccountDomain=%v", accountDomain)
+  msg = msg + fmt.Sprintf("\tLogonID=%v", logonID)
   msg = msg + fmt.Sprintf("\tSessionName=%v", sessionName)
   msg = msg + fmt.Sprintf("\tClientName=%v", clientName)
   msg = msg + fmt.Sprintf("\tClientAddress=%v", clientAddress)
 
   return msg
 } // func Event4779
+
+// ----------------------------------------------------------------------------
+// Event 4800  CL The workstation was locked.
+//
+func Event4800(event *Event) string {
+  targetUserSid := event.FindEventData("TargetUserSid")
+  targetUserName := event.FindEventData("TargetUserName")
+  targetDomainName := event.FindEventData("TargetDomainName")
+  targetLogonId := event.FindEventData("TargetLogonId")
+  sessionId := event.FindEventData("SessionId")
+
+  msg := fmt.Sprintf("Event=%v", event.System.EventID)
+  msg = msg + fmt.Sprintf("\tTargetUserSid=%v", targetUserSid)
+  msg = msg + fmt.Sprintf("\tTargetUserName=%v", targetUserName)
+  msg = msg + fmt.Sprintf("\tTargetDomainName=%v", targetDomainName)
+  msg = msg + fmt.Sprintf("\tTargetLogonId=%v", targetLogonId)
+  msg = msg + fmt.Sprintf("\tSessionId=%v", sessionId)
+
+  return msg
+} // func Event4800
+
+// ----------------------------------------------------------------------------
+// Event 4801  CL The workstation was unlocked.
+//
+func Event4801(event *Event) string {
+  targetUserSid := event.FindEventData("TargetUserSid")
+  targetUserName := event.FindEventData("TargetUserName")
+  targetDomainName := event.FindEventData("TargetDomainName")
+  targetLogonId := event.FindEventData("TargetLogonId")
+  sessionId := event.FindEventData("SessionId")
+
+  msg := fmt.Sprintf("Event=%v", event.System.EventID)
+  msg = msg + fmt.Sprintf("\tTargetUserSid=%v", targetUserSid)
+  msg = msg + fmt.Sprintf("\tTargetUserName=%v", targetUserName)
+  msg = msg + fmt.Sprintf("\tTargetDomainName=%v", targetDomainName)
+  msg = msg + fmt.Sprintf("\tTargetLogonId=%v", targetLogonId)
+  msg = msg + fmt.Sprintf("\tSessionId=%v", sessionId)
+
+  return msg
+} // func Event4801
